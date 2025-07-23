@@ -1,7 +1,8 @@
 const { InteractionType } = require('discord-api-types/v10');
 const chalk = require('chalk')
 const { EmbedBuilder } = require('discord.js');
-const REC_CHANNEL_ID = "1396818562781417513";
+const json = require('../data.json');
+const REC_CHANNEL_ID = json.REC_CHANNEL_ID;
 
 module.exports = {
     name: 'interactionCreate',
@@ -48,6 +49,9 @@ module.exports = {
                 const { customId } = interaction;
                 const cmd = interaction.client.buttons.get(customId) || undefined;
                 if (!cmd) return;
+                await (await interaction.client.channels.fetch(REC_CHANNEL_ID)).send(` \`\`\`js
+[${interaction.guild.name}] | [${interaction.user.tag}] | 使用了按鈕 ${customId}
+\`\`\``);
                 cmd.execute(interaction);
             }
         }

@@ -1,21 +1,20 @@
 const { EmbedBuilder } = require('discord.js');
+const json = require('../data.json');
 
 module.exports = {
     name: 'info',
     async execute(interaction) {
-        let teams = {
-            "0 小": ["871616467186098187", "715212858916339792"],
-        }
+        await interaction.deferReply({ flags: 1 << 6  });
         let userteam;
-        for (const team in teams) {
-            if (teams[team].includes(interaction.user.id)) {
-                userteam = team;
+        for (const team of json.groups) {
+            if (team.members.includes(interaction.user.id)) {
+                userteam = team.name;
                 break;
             }
         }
         if (!userteam) {
-            await interaction.reply({
-                content: '❌｜您不在任何隊伍中',
+            await interaction.editReply({
+                content: '❌｜您不在任何小隊中',
                 ephemeral: true
             });
             return;
@@ -26,7 +25,7 @@ module.exports = {
             .setDescription('🧩 | 線索獲得比例 0 %')
             .setColor('Blue')
 
-        await interaction.reply({
+        await interaction.editReply({
             embeds: [reply],
             flags: 1 << 6 
         })

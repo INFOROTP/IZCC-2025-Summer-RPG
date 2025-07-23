@@ -32,12 +32,16 @@ module.exports = {
             .setCustomId('info')
             .setLabel('🆔 小隊狀態')
             .setStyle(ButtonStyle.Danger);
+        const data = new ButtonBuilder()
+            .setCustomId('data')
+            .setLabel('📃 初始資料')
+            .setStyle(ButtonStyle.Primary);
         
         await interaction.editReply({
             embeds: [bga, bgb, bgc],
             components: [{
                 type: 1,
-                components: [btn, reply, info]
+                components: [data, btn, reply, info]
             }]
         });
     }

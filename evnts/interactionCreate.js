@@ -54,6 +54,32 @@ module.exports = {
             }
             case InteractionType.MessageComponent: {
                 const { customId } = interaction;
+                // reptN_start / reptN_leave
+                if (/^rept[0-4]_(start|leave)$/.test(customId)) {
+                    const teamIdx = Number(customId[4]);
+                    const action = customId.endsWith('start') ? '開始' : '離開';
+                    await interaction.update({
+                        content: `✅｜已回報「${teamIdx} 小」小隊${action}！`,
+                        components: [],
+                        ephemeral: true
+                    });
+
+                    const channel = await interaction.client.channels.fetch("1396542455641538622");
+                    const msg = await channel.messages.fetch("1397638004289310732");
+                    const embed = msg.embeds[0] ? msg.embeds[0].toJSON() : {};
+                    embed.fields = embed.fields || [];
+                    for (let i = 0; i < 5; i++) {
+                        if (!embed.fields[i]) {
+                            embed.fields[i] = { name: `${i} 小`, value: '\u200b', inline: true };
+                        }
+                    }
+                    embed.fields[teamIdx].value = action === '開始'
+                        ? `<@${interaction.user.id}>`
+                        : '\u200b';
+
+                    await msg.edit({ embeds: [embed] });
+                    return;
+                }
                 const cmd = interaction.client.buttons.get(customId) || undefined;
                 if (!cmd) return;
                 await (await interaction.client.channels.fetch(REC_CHANNEL_ID)).send(` \`\`\`js

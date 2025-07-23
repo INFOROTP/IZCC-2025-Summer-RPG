@@ -4,8 +4,8 @@ module.exports = {
     async execute(interaction) {
         await interaction.deferReply({ flags: 1 << 6 });
         let deletedChannels = [];
-        for (const key in json.TEST_CHANNEL_ID) {
-            const channelId = json.TEST_CHANNEL_ID[key];
+        for (const key in (json.play? json.DDAY_CHANNEL_ID:json.TEST_CHANNEL_ID)) {
+            const channelId = json.play? json.DDAY_CHANNEL_ID[key]:json.TEST_CHANNEL_ID[key];
             const channel = await interaction.client.channels.fetch(channelId).catch(() => null);
             if (!channel || !channel.isTextBased()) continue;
 

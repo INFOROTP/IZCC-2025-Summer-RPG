@@ -15,8 +15,7 @@ module.exports = {
             });
             return;
         }
-
-        const ann = await interaction.client.channels.fetch(json.TEST_CHANNEL_ID.RPG_ANN).catch();
+        const ann = await interaction.client.channels.fetch(json.play ? json.DDAY_CHANNEL_ID.RPG_ANN:json.TEST_CHANNEL_ID.RPG_ANN).catch();
         await ann.send(`@everyone\n# 🎮 RPG 遊戲開始\n遊戲的指引已經自動傳送到各小隊的 RPG 頻道，請所有小隊員仔細閱讀。活動過程中也請注意以下幾點事項：\n1. 請以__小隊為單位__團體行動，切勿落單。\n2. 如有緊急狀況（包括但不限於喝水、上廁所、身體不適等需求），請隨時告知身旁的小隊輔或工作人員。\n3. 為考量遊戲公平性，獲得的線索請勿向其他小隊透漏，也請勿以任何手段作弊，否則將斟酌情形進行扣分或取消資格處理。\n\n最後，祝大家玩得開心！✨`);
 
         const startEmbed1 = new EmbedBuilder()
@@ -36,9 +35,9 @@ module.exports = {
             .setFooter({ text: '在聊天室使用斜線指令 /背景', iconURL: interaction.client.user.displayAvatarURL() });
 
         for (let i=0; i<5; i++) {
-            const channel = await interaction.client.channels.fetch(json.TEST_CHANNEL_ID[`G${i}`]).catch(() => null);
+            const channel = await interaction.client.channels.fetch(json.play ? json.DDAY_CHANNEL_ID[`G${i}`]:json.TEST_CHANNEL_ID[`G${i}`]).catch(() => null);
             if (!channel || !channel.isTextBased()) continue;
-            await channel.send({ content: `<@&${json.TEST_GROUP_ROLE_ID[`G${i}`]}>`, embeds: [startEmbed1, startEmbed2] });
+            await channel.send({ content: `<@&${json.play ? json.DDAY_GROUP_ROLE_ID[`G${i}`]:json.TEST_GROUP_ROLE_ID[`G${i}`]}>`, embeds: [startEmbed1, startEmbed2] });
         }
 
         await interaction.editReply({

@@ -2,6 +2,7 @@ const { SlashCommandBuilder } = require('discord.js');
 const json = require('../data.json');
 
 module.exports = {
+    dev: true,
     data: new SlashCommandBuilder()
         .setName('eval')
         .setDescription('僅供開發者使用')

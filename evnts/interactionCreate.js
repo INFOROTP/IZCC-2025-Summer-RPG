@@ -16,6 +16,13 @@ module.exports = {
                     await (await interaction.client.channels.fetch(REC_CHANNEL_ID)).send(` \`\`\`js
 [${interaction.guild.name}] | [${interaction.user.tag}] | 使用了指令 ${interaction.commandName}
 \`\`\``);
+                    if (!json.developers.includes(interaction.user.id) && json.play==false) {
+                        await interaction.reply({
+                            content: "RPG 遊戲尚未開啟，請期待第三天的活動！",
+                            flags: 1 << 6 
+                        });
+                        return;
+                    }
                     await cmd.execute(interaction);
                 } catch (err) {
                     if (err) console.error(err);

@@ -1,16 +1,22 @@
 const ID = process.env.ID;
 const chalk = require('chalk');
-// const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
-
+const { devCmds, globalCmds } = require('../cmdLoader.js');
+const devGuild = require('../data.json').DEV_GUILD_ID;
+const json = require('../data.json');
 
 module.exports = {
     name: 'ready',
     once: true,
     async execute(client, cmds) {
         try {
-            //await client.rest.put(`/applications/${ID}/commands`, { body: cmds });
-            await client.rest.put(`/applications/${ID}/commands`, { body: [] });
-            await client.rest.put(`/applications/${ID}/guilds/1396814603677335706/commands`, { body: cmds });
+            if (json.play == true) {
+                await client.rest.put(`/applications/${ID}/commands`, { body: globalCmds });
+                await client.rest.put(`/applications/${ID}/guilds/${devGuild}/commands`, { body: devCmds });
+            } else {
+                await client.rest.put(`/applications/${ID}/commands`, { body: [] });
+                await client.rest.put(`/applications/${ID}/guilds/${devGuild}/commands`, { body: [...globalCmds, ...devCmds] });
+            }
+            
         } catch (err) {
             if (err) console.error(err);
               process.exit(1);

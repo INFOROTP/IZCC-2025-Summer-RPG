@@ -19,7 +19,7 @@ for (const file of evntfiles) {
         client.once(evnt.name, (...args) => evnt.execute(...args, cmds));
     } else {
         client.on(evnt.name, (...args) => {
-            console.log(chalk.blueBright(`事件觸發 `) + chalk.white(`${evnt.name} 事件被觸發，將開始進行回應`))
+            // console.log(chalk.blueBright(`事件觸發 `) + chalk.white(`${evnt.name} 事件被觸發，將開始進行回應`))
             evnt.execute(...args, cmds)
         });
     };
@@ -27,15 +27,8 @@ for (const file of evntfiles) {
 };
 
 // Command handler
-const cmdfiles = fs.readdirSync('./cmds').filter(file => file.endsWith('.js'));
-const cmds = [];
-client.commands = new Collection();
-for (const file of cmdfiles) {
-    const cmd = require(`./cmds/${file}`);
-    client.commands.set(cmd.data.name, cmd);
-    cmds.push(cmd.data.toJSON());
-    console.log(chalk.green(`指令設置 `) + chalk.white(`${cmd.data.name} 指令設置成功`))
-};
+const { cmds, commandsCollection } = require('./cmdLoader.js');
+client.commands = commandsCollection;
 
 // Button handler
 const btnfiles = fs.readdirSync('./btns').filter(file => file.endsWith('.js'));
@@ -43,7 +36,7 @@ client.buttons = new Collection();
 for (const file of btnfiles) {
     const btn = require(`./btns/${file}`);
     client.buttons.set(btn.name, btn);
-    console.log(chalk.green(`按鈕設置 `) + chalk.white(`${btn.name} 指令設置成功`))
+    console.log(chalk.redBright(`按鈕設置 `) + chalk.white(`${btn.name} 指令設置成功`))
 };
 
 // Login

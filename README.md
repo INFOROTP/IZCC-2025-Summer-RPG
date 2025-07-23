@@ -4,7 +4,7 @@
 > ![commit](https://img.shields.io/github/last-commit/INFOROTP/IZCC-2025-Summer-RPG?color=%23181717&logo=GitHub&style=for-the-badge)
 > ![JavaScript](https://img.shields.io/badge/JavaScript-yellow?style=for-the-badge&logo=JavaScript) 
 ## 簡介
-IZCC 近年來的寒暑訓，皆以自行開發的捷運大富翁系統，進行七天中其中一天的活動。捷運大富翁在活動中，實踐了將科技融入現實生活的娛樂應用，多年來都有著良好的成效。\n\n
+IZCC 近年來的寒暑訓，皆以自行開發的捷運大富翁系統，進行七天中其中一天的活動。捷運大富翁在活動中，實踐了將科技融入現實生活的娛樂應用，多年來都有著良好的成效。<br><br>
 而 RPG 遊戲同樣是 IZCC 寒暑訓慣例的活動之一。在今年 IZCC 115 所舉辦的 2025 寒訓中，RPG 遊戲搭配 TG Bot 進行且成效良好。因此，為能夠使活動扣合電資主題，同時讓小隊員有更好的遊戲體驗，本次活動通過 DC Bot 輔助 RPG 進行。
 ## 功能
 - 遊戲開始之公告、初始指引、背景故事指令自動發布

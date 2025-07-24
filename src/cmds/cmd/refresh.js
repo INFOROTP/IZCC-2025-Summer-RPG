@@ -1,4 +1,5 @@
-const json = require('../../data.json');
+const path = require('path');
+const json = require(path.resolve(__dirname, '../../data.json'));
 
 module.exports = {
     async execute(interaction) {

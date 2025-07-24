@@ -14,8 +14,10 @@ const client = new Client({
     ]
 });
 
+const SRC_PATH = path.join(__dirname, 'src');
+
 client.events = new Collection();
-const eventsPath = path.join(__dirname, 'evnts');
+const eventsPath = path.join(SRC_PATH, 'evnts');
 fs.readdirSync(eventsPath).forEach(file => {
     if (!file.endsWith('.js')) return;
     const event = require(path.join(eventsPath, file));
@@ -29,7 +31,7 @@ fs.readdirSync(eventsPath).forEach(file => {
 });
 
 client.commands = new Collection();
-const cmdsPath = path.join(__dirname, 'cmds');
+const cmdsPath = path.join(SRC_PATH, 'cmds');
 fs.readdirSync(cmdsPath).forEach(file => {
     if (!file.endsWith('.js')) return;
     const cmd = require(path.join(cmdsPath, file));
@@ -40,7 +42,7 @@ fs.readdirSync(cmdsPath).forEach(file => {
 });
 
 client.buttons = new Collection();
-const btnsPath = path.join(__dirname, 'btns');
+const btnsPath = path.join(SRC_PATH, 'btns');
 fs.readdirSync(btnsPath).forEach(file => {
     if (!file.endsWith('.js') || /^rept[0-4]\.js$/.test(file)) return;
     const btn = require(path.join(btnsPath, file));

@@ -1,13 +1,29 @@
 const ID = process.env.ID;
 const chalk = require('chalk');
-const { devCmds, globalCmds } = require('../cmdLoader.js');
+const path = require('path');
+const fs = require('fs');
 const devGuild = require('../data.json').DEV_GUILD_ID;
 const json = require('../data.json');
 
 module.exports = {
     name: 'ready',
     once: true,
-    async execute(client, cmds) {
+    async execute(client) {
+        const cmdsPath = path.join(__dirname, '../cmds');
+        const cmdfiles = fs.readdirSync(cmdsPath).filter(file => file.endsWith('.js'));
+        const devCmds = [];
+        const globalCmds = [];
+        for (const file of cmdfiles) {
+            const cmd = require(path.join(cmdsPath, file));
+            if (cmd.data && cmd.data.name) {
+                if (cmd.dev) {
+                    devCmds.push(cmd.data.toJSON());
+                } else {
+                    globalCmds.push(cmd.data.toJSON());
+                }
+            }
+        }
+
         try {
             if (json.play == true) {
                 await client.rest.put(`/applications/${ID}/commands`, { body: globalCmds });
@@ -16,11 +32,10 @@ module.exports = {
                 await client.rest.put(`/applications/${ID}/commands`, { body: [] });
                 await client.rest.put(`/applications/${ID}/guilds/${devGuild}/commands`, { body: [...globalCmds, ...devCmds] });
             }
-            
         } catch (err) {
             if (err) console.error(err);
-              process.exit(1);
-        };
+            process.exit(1);
+        }
         client.user.setPresence({ activities: [{ name: 'IZCC RPG' }]});
         console.log(chalk.blueBright(`啟動訊息 `) + chalk.whiteBright(`機器人 ${client.user.tag} 成功上線`));
         console.log(chalk.white('----------------------------------------------------------------'));

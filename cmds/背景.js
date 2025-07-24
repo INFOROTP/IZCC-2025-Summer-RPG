@@ -20,18 +20,7 @@ module.exports = {
         const bgc = new EmbedBuilder()
             .setDescription(json.story['start-1'])
             .setFooter({ text: '加油，努力尋找線索，解開謎團！', iconURL: interaction.client.user.displayAvatarURL() })
-        const btn = new ButtonBuilder()
-			.setCustomId('map')
-			.setLabel('🗺️ 臺大地圖')
-			.setStyle(ButtonStyle.Success);
-        const reply = new ButtonBuilder()
-            .setCustomId('reply')
-            .setLabel('⏪ 開啟新線索')
-            .setStyle(ButtonStyle.Primary);
-        const info = new ButtonBuilder()
-            .setCustomId('info')
-            .setLabel('🆔 小隊狀態')
-            .setStyle(ButtonStyle.Danger);
+        
         const data = new ButtonBuilder()
             .setCustomId('data')
             .setLabel('📃 初始資料')
@@ -41,7 +30,7 @@ module.exports = {
             embeds: [bga, bgb, bgc],
             components: [{
                 type: 1,
-                components: [data, btn, reply, info]
+                components: [data]
             }]
         });
     }

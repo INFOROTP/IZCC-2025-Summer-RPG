@@ -9,11 +9,11 @@ module.exports = {
     async execute(interaction, client) {
         switch (interaction.type) {
             case InteractionType.ApplicationCommand: {
-                const cmd = interaction.client.commands.get(interaction.commandName);
+                const cmd = client.commands.get(interaction.commandName);
                 if (!cmd) return;
                 try {
                     await console.log(chalk.greenBright(`指令使用 `) + chalk.white(`${interaction.user.tag} 使用了指令 ${interaction.commandName}`))
-                    await (await interaction.client.channels.fetch(REC_CHANNEL_ID)).send(` \`\`\`js
+                    await (await client.channels.fetch(REC_CHANNEL_ID)).send(` \`\`\`js
 [${interaction.guild.name}] | [${interaction.user.tag}] | 使用了指令 ${interaction.commandName}
 \`\`\``);
                     if (!json.developers.includes(interaction.user.id) && json.play==false) {
@@ -37,13 +37,13 @@ module.exports = {
                             ephemeral: true
                         });
                     }
-                    await (await interaction.client.channels.fetch(REC_CHANNEL_ID)).send({
+                    await (await client.channels.fetch(REC_CHANNEL_ID)).send({
                         content: `<@871616467186098187>`,
                         embeds: [
                             new EmbedBuilder()
                             .setAuthor({
-                                iconURL: interaction.client.user.displayAvatarURL(),
-                                name: interaction.client.user.tag,
+                                iconURL: client.user.displayAvatarURL(),
+                                name: client.user.tag,
                             })
                             .setTitle('機器人發生' + err.name + '錯誤')
                             .setDescription('```' + err + '```')
@@ -51,6 +51,7 @@ module.exports = {
                         ]
                     });
                 };
+                break;
             }
             case InteractionType.MessageComponent: {
                 const { customId } = interaction;
@@ -64,28 +65,26 @@ module.exports = {
                         ephemeral: true
                     });
 
-                    const channel = await interaction.client.channels.fetch("1396542455641538622");
+                    const channel = await client.channels.fetch(json.DDAY_CHANNEL_ID.NPC_REPORT);
                     const msg = await channel.messages.fetch("1397638004289310732");
-                    const embed = msg.embeds[0] ? msg.embeds[0].toJSON() : {};
-                    embed.fields = embed.fields || [];
+                    const embed = msg.embeds[0]?.toJSON() || { fields: [] };
                     for (let i = 0; i < 5; i++) {
-                        if (!embed.fields[i]) {
-                            embed.fields[i] = { name: `${i} 小`, value: '\u200b', inline: true };
-                        }
+                        embed.fields[i] ??= { name: `${i} 小`, value: '', inline: true };
                     }
                     embed.fields[teamIdx].value = action === '開始'
                         ? `<@${interaction.user.id}>`
-                        : '\u200b';
+                        : '';
 
                     await msg.edit({ embeds: [embed] });
                     return;
                 }
-                const cmd = interaction.client.buttons.get(customId) || undefined;
-                if (!cmd) return;
-                await (await interaction.client.channels.fetch(REC_CHANNEL_ID)).send(` \`\`\`js
+                const btnHandler = client.buttons.get(customId);
+                if (!btnHandler) return;
+                await (await client.channels.fetch(REC_CHANNEL_ID)).send(` \`\`\`js
 [${interaction.guild.name}] | [${interaction.user.tag}] | 使用了按鈕 ${customId}
 \`\`\``);
-                cmd.execute(interaction);
+                btnHandler.execute(interaction);
+                break;
             }
         }
     }

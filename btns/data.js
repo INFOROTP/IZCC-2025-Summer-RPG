@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 
 module.exports = {
     name: 'data',
@@ -18,9 +18,24 @@ module.exports = {
             .setTitle('警方初步調查報告')
             .setImage('https://media.discordapp.net/attachments/1397262869543784540/1397620005784518717/7.jpg?ex=6882628f&is=6881110f&hm=b3522c33a695de4018d32cb96403ecf2f34b989d92da94979b8382be36f28e4b&=&format=webp&width=620&height=930')
             .setFooter({ text: '遊戲中請多加利用輔助推理！', iconURL: interaction.client.user.displayAvatarURL() })
-        
+        const btn = new ButtonBuilder()
+			.setCustomId('map')
+			.setLabel('🗺️ 臺大地圖')
+			.setStyle(ButtonStyle.Success);
+        const reply = new ButtonBuilder()
+            .setCustomId('reply')
+            .setLabel('⏪ 開啟新線索')
+            .setStyle(ButtonStyle.Primary);
+        const info = new ButtonBuilder()
+            .setCustomId('info')
+            .setLabel('🆔 小隊狀態')
+            .setStyle(ButtonStyle.Danger);
         await interaction.editReply({
-            embeds: [dta, dtb, dtc]
+            embeds: [dta, dtb, dtc],
+            components: [{
+                type: 1,
+                components: [btn, reply, info]
+            }]
         });
     }
 };

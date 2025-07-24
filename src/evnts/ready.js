@@ -1,9 +1,7 @@
-const ID = process.env.ID;
-const chalk = require('chalk');
-const path = require('path');
 const fs = require('fs');
-const devGuild = require('../data.json').DEV_GUILD_ID;
-const json = require('../data.json');
+const path = require('path');
+const chalk = require('chalk');
+const json = require(path.resolve(__dirname, '../data.json'));
 
 module.exports = {
     name: 'ready',
@@ -26,11 +24,11 @@ module.exports = {
 
         try {
             if (json.play == true) {
-                await client.rest.put(`/applications/${ID}/commands`, { body: globalCmds });
-                await client.rest.put(`/applications/${ID}/guilds/${devGuild}/commands`, { body: devCmds });
+                await client.rest.put(`/applications/${process.env.ID}/commands`, { body: globalCmds });
+                await client.rest.put(`/applications/${process.env.ID}/guilds/${json.DEV_GUILD_ID}/commands`, { body: devCmds });
             } else {
-                await client.rest.put(`/applications/${ID}/commands`, { body: [] });
-                await client.rest.put(`/applications/${ID}/guilds/${devGuild}/commands`, { body: [...globalCmds, ...devCmds] });
+                await client.rest.put(`/applications/${process.env.ID}/commands`, { body: [] });
+                await client.rest.put(`/applications/${process.env.ID}/guilds/${json.DEV_GUILD_ID}/commands`, { body: [...globalCmds, ...devCmds] });
             }
         } catch (err) {
             if (err) console.error(err);

@@ -2,7 +2,7 @@ const { InteractionType } = require('discord-api-types/v10');
 const chalk = require('chalk')
 const { EmbedBuilder } = require('discord.js');
 const path = require('path');
-const json = require(path.resolve(__dirname, '../data.json'));
+const json = require(path.resolve(__dirname, '../../data.json'));
 const REC_CHANNEL_ID = json.REC_CHANNEL_ID;
 
 module.exports = {

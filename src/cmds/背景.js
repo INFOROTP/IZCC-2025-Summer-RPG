@@ -1,6 +1,6 @@
 const path = require('path');
 const { SlashCommandBuilder, EmbedBuilder, ButtonStyle, ButtonBuilder } = require('discord.js');
-const json = require(path.resolve(__dirname, '../data.json'));
+const json = require(path.resolve(__dirname, '../../data.json'));
 
 module.exports = {
     data: new SlashCommandBuilder()

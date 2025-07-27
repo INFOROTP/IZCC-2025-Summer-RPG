@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
-const json = require(path.resolve(__dirname, '../data.json'));
+const json = require(path.resolve(__dirname, '../../data.json'));
 
 module.exports = {
     name: 'ready',

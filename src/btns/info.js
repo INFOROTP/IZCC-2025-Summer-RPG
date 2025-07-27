@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
-const json = require('../data.json');
+const json = require('../../data.json');
 
 module.exports = {
     name: 'info',
